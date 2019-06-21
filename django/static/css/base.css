@@ -1,0 +1,9 @@
+body {
+    background: aliceblue;
+    margin-bottom: 30px;
+}
+
+.movie-image img {
+    max-height: 30rem;
+    max-width: 30rem;
+}

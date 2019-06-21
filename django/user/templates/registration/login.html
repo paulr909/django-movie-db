@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Login - {{ block.super }}
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1>Log in</h1>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-outline-primary btn-sm">Log In</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

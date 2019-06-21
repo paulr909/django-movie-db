@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="{% url 'core:MovieList' %}">Django Movie DB</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#movie-db"
+            aria-controls="movie-db" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="movie-db">
+        <ul class="navbar-nav mr-auto">
+            <li><a class="nav-link" href="{% url 'core:MovieList' %}">Movies</a></li>
+            <li><a class="nav-link" href="{% url 'core:TopMovies' %}">Top 10 Movies</a></li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+                <li><a class="nav-link" href="{% url 'user:logout' %}">Log out</a></li>
+            {% else %}
+                <li><a class="nav-link" href="{% url 'user:login' %}">Log in</a></li>
+                <li><a class="nav-link" href="{% url 'user:register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

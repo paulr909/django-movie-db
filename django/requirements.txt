@@ -1,0 +1,10 @@
+Django==2.2.2
+django-crispy-forms==1.7.2
+django-debug-toolbar==1.8
+olefile==0.46
+Pillow==4.3.0
+psycopg2==2.8.2
+python-memcached==1.58
+pytz==2019.1
+six==1.12.0
+sqlparse==0.3.0
