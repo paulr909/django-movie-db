@@ -13,7 +13,7 @@
                 <ol>
                     {% for movie in object_list %}
                         <li>
-                            <a href="{% url "core:movie-detail" pk=movie.id %}">
+                            <a href="{% url "core:movie_detail" pk=movie.id %}">
                                 {{ movie }}
                             </a>
                         </li>

@@ -13,7 +13,7 @@
             <ul>
                 {% for role in object.role_set.all %}
                     <li>
-                        <a href="{% url 'core:movie-detail' role.movie.id %}">
+                        <a href="{% url 'core:movie_detail' role.movie.id %}">
                             {{ role.movie }}
                         </a>
                         {{ role.billing }}
@@ -24,7 +24,7 @@
             <ul>
                 {% for movie in object.writing_credits.all %}
                     <li>
-                        <a href="{% url 'core:movie-detail' movie.id %}">
+                        <a href="{% url 'core:movie_detail' movie.id %}">
                             {{ movie }}
                         </a>
                     </li>
@@ -34,7 +34,7 @@
             <ul>
                 {% for movie in object.directed.all %}
                     <li>
-                        <a href="{% url 'core:movie-detail' movie.id %}">
+                        <a href="{% url 'core:movie_detail' movie.id %}">
                             {{ movie }}
                         </a>
                     </li>

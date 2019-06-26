@@ -24,11 +24,11 @@ class CreateVote(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         movie_id = self.object.movie.id
-        return reverse('core:movie-detail', kwargs={'pk': movie_id})
+        return reverse('core:movie_detail', kwargs={'pk': movie_id})
 
     def render_to_response(self, context, **response_kwargs):
         movie_id = context['object'].id
-        movie_detail_url = reverse('core:movie-detail', kwargs={'pk': movie_id})
+        movie_detail_url = reverse('core:movie_detail', kwargs={'pk': movie_id})
         return redirect(to=movie_detail_url)
 
 
@@ -41,9 +41,9 @@ class MovieDetail(DetailView):
         if self.request.user.is_authenticated:
             vote = Vote.objects.get_vote_or_unsaved_blank_vote(movie=self.object, user=self.request.user)
             if vote.id:
-                vote_form_url = reverse('core:update-vote', kwargs={'movie_id': vote.movie.id, 'pk': vote.id})
+                vote_form_url = reverse('core:update_vote', kwargs={'movie_id': vote.movie.id, 'pk': vote.id})
             else:
-                vote_form_url = (reverse('core:create-vote', kwargs={'movie_id': self.object.id}))
+                vote_form_url = (reverse('core:create_vote', kwargs={'movie_id': self.object.id}))
             vote_form = VoteForm(instance=vote)
             ctx['vote_form'] = vote_form
             ctx['vote_form_url'] = vote_form_url
@@ -66,12 +66,12 @@ class MovieImageUpload(LoginRequiredMixin, CreateView):
 
     def render_to_response(self, context, **response_kwargs):
         movie_id = self.kwargs['movie_id']
-        movie_detail_url = reverse('core:movie-detail', kwargs={'pk': movie_id})
+        movie_detail_url = reverse('core:movie_detail', kwargs={'pk': movie_id})
         return redirect(to=movie_detail_url)
 
     def get_success_url(self):
         movie_id = self.kwargs['movie_id']
-        movie_detail_url = reverse('core:movie-detail', kwargs={'pk': movie_id})
+        movie_detail_url = reverse('core:movie_detail', kwargs={'pk': movie_id})
         return movie_detail_url
 
 
@@ -121,9 +121,9 @@ class UpdateVote(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         movie_id = self.object.movie.id
-        return reverse('core:movie-detail', kwargs={'pk': movie_id})
+        return reverse('core:movie_detail', kwargs={'pk': movie_id})
 
     def render_to_response(self, context, **response_kwargs):
         movie_id = context['object'].id
-        movie_detail_url = reverse('core:movie-detail', kwargs={'pk': movie_id})
+        movie_detail_url = reverse('core:movie_detail', kwargs={'pk': movie_id})
         return redirect(to=movie_detail_url)
