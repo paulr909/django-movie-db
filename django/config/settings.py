@@ -68,7 +68,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'moviedb',
         'USER': 'postgres',
-        'PASSWORD': 'easy-password',
+        'PASSWORD': 'allN1ghtL0ng22',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -117,7 +117,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/uploaded/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '../media_root')
 
-LOGIN_REDIRECT_URL = 'core:movie-list'
+LOGIN_REDIRECT_URL = 'core:movie_list'
 LOGIN_URL = 'user:login'
 
 CACHES = {

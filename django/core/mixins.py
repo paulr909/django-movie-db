@@ -6,9 +6,6 @@ from django.views.decorators.vary import vary_on_cookie
 class CachePageVaryOnCookieMixin:
     """
     Mixin caching a single page.
-
-    Subclasses can provide these attributes:
-
     `cache_name` - name of cache to use.`timeout` - cache timeout for this page. When not provided,
     the default cache timeout is used.
     """

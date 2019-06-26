@@ -13,23 +13,21 @@ from core.models import (Movie, Person, Vote)
 logger = logging.getLogger(__name__)
 
 
-class CreateVote(LoginRequiredMixin, CreateView):
-    form_class = VoteForm
+class PersonDetail(DetailView):
+    queryset = Person.objects.all_with_prefetch_movies()
 
-    def get_initial(self):
-        initial = super().get_initial()
-        initial['user'] = self.request.user.id
-        initial['movie'] = self.kwargs['movie_id']
-        return initial
 
-    def get_success_url(self):
-        movie_id = self.object.movie.id
-        return reverse('core:movie_detail', kwargs={'pk': movie_id})
+class MovieList(CachePageVaryOnCookieMixin, ListView):
+    model = Movie
+    paginate_by = 10
 
-    def render_to_response(self, context, **response_kwargs):
-        movie_id = context['object'].id
-        movie_detail_url = reverse('core:movie_detail', kwargs={'pk': movie_id})
-        return redirect(to=movie_detail_url)
+    def get_context_data(self, **kwargs):
+        ctx = super(MovieList, self).get_context_data(**kwargs)
+        page = ctx['page_obj']
+        paginator = ctx['paginator']
+        ctx['page_is_first'] = (page.number == 1)
+        ctx['page_is_last'] = (page.number == paginator.num_pages)
+        return ctx
 
 
 class MovieDetail(DetailView):
@@ -55,6 +53,22 @@ class MovieDetail(DetailView):
         return None
 
 
+class TopMovies(ListView):
+    template_name = 'core/top_movies_list.html'
+
+    def get_queryset(self):
+        limit = 10
+        key = 'top_movies_%s' % limit
+        cached_qs = cache.get(key)
+        if cached_qs:
+            same_django = cached_qs._django_version == django.get_version()
+            if same_django:
+                return cached_qs
+        qs = Movie.objects.top_movies(limit=limit)
+        cache.set(key, qs)
+        return qs
+
+
 class MovieImageUpload(LoginRequiredMixin, CreateView):
     form_class = MovieImageForm
 
@@ -75,37 +89,23 @@ class MovieImageUpload(LoginRequiredMixin, CreateView):
         return movie_detail_url
 
 
-class MovieList(CachePageVaryOnCookieMixin, ListView):
-    model = Movie
-    paginate_by = 10
+class CreateVote(LoginRequiredMixin, CreateView):
+    form_class = VoteForm
 
-    def get_context_data(self, **kwargs):
-        ctx = super(MovieList, self).get_context_data(**kwargs)
-        page = ctx['page_obj']
-        paginator = ctx['paginator']
-        ctx['page_is_first'] = (page.number == 1)
-        ctx['page_is_last'] = (page.number == paginator.num_pages)
-        return ctx
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['user'] = self.request.user.id
+        initial['movie'] = self.kwargs['movie_id']
+        return initial
 
+    def get_success_url(self):
+        movie_id = self.object.movie.id
+        return reverse('core:movie_detail', kwargs={'pk': movie_id})
 
-class PersonDetail(DetailView):
-    queryset = Person.objects.all_with_prefetch_movies()
-
-
-class TopMovies(ListView):
-    template_name = 'core/top_movies_list.html'
-
-    def get_queryset(self):
-        limit = 10
-        key = 'top_movies_%s' % limit
-        cached_qs = cache.get(key)
-        if cached_qs:
-            same_django = cached_qs._django_version == django.get_version()
-            if same_django:
-                return cached_qs
-        qs = Movie.objects.top_movies(limit=limit)
-        cache.set(key, qs)
-        return qs
+    def render_to_response(self, context, **response_kwargs):
+        movie_id = context['object'].id
+        movie_detail_url = reverse('core:movie_detail', kwargs={'pk': movie_id})
+        return redirect(to=movie_detail_url)
 
 
 class UpdateVote(LoginRequiredMixin, UpdateView):
