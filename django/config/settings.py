@@ -12,7 +12,7 @@ SECRET_KEY = '_&@#veo_(o4nr^2cv2%*5isnk(ur!(o7*ttei^-#_wu4+(h#p1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -117,7 +117,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/uploaded/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '../media_root')
 
-LOGIN_REDIRECT_URL = 'core:MovieList'
+LOGIN_REDIRECT_URL = 'core:movie-list'
 LOGIN_URL = 'user:login'
 
 CACHES = {

@@ -19,7 +19,7 @@ class MovieListPaginationTestCase(TestCase):
             Movie.objects.create(title='Title {}'.format(n), year=1990 + n, runtime=100, )
 
     def testFirstPage(self):
-        movie_list_path = reverse('core:MovieList')
+        movie_list_path = reverse('core:movie-list')
         request = RequestFactory().get(path=movie_list_path)
         response = MovieList.as_view()(request)
         self.assertEqual(200, response.status_code)
@@ -62,7 +62,7 @@ class CreateVoteViewTestCase(TestCase):
         self.user = User.objects.create_user(username='correct', email='correct@mail.com', password='unittest', )
 
         request = RequestFactory().post(
-            reverse('core:CreateVote', kwargs={'movie_id': movie.id}), data={'movie': movie.id, 'value': Vote.UP, }, )
+            reverse('core:create-vote', kwargs={'movie_id': movie.id}), data={'movie': movie.id, 'value': Vote.UP, }, )
         request.user = self.user
         view = CreateVote.as_view()
         response = view(request, movie_id=movie.id)

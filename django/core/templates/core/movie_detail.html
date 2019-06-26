@@ -16,7 +16,7 @@
             <ul>
                 {% for credit in object.role_set.all %}
                     <li>
-                        <a href="{% url 'core:PersonDetail' pk=credit.person.id %}">{{ credit.person }} {{ credit.billing }}</a>
+                        <a href="{% url 'core:person-detail' pk=credit.person.id %}">{{ credit.person }} {{ credit.billing }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -38,7 +38,7 @@
             {% if image_form %}
                 <h2>Upload New Image</h2>
                 <form method="post" enctype="multipart/form-data"
-                      action="{% url 'core:MovieImageUpload' movie_id=object.id %}" novalidate>
+                      action="{% url 'core:movie-image-upload' movie_id=object.id %}" novalidate>
                     {% csrf_token %}
                     {{ image_form|crispy }}
                     <p>

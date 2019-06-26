@@ -26,6 +26,7 @@ class Person(models.Model):
             return '{} {} ({}-{})'.format(self.first_name, self.last_name, self.born, self.died)
         return '{} {} ({})'.format(self.first_name, self.last_name, self.born)
 
+
 def movie_directory_path_with_uuid(
         instance, filename):
     return '{}/{}.{}'.format(instance.movie_id, uuid4(), filename.split('.')[-1])
