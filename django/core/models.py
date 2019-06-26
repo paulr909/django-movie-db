@@ -69,7 +69,7 @@ class Movie(models.Model):
     RATINGS = (
         (NOT_RATED, 'NR - Not Rated'),
         (RATED_G, 'G - General Audiences'), (RATED_PG, 'PG - Parental Guidance ' 'Suggested'),
-        (RATED_R, 'R - Restricted'),)
+        (RATED_R, 'R - Restricted'))
 
     title = models.CharField(max_length=140)
     plot = models.TextField()
@@ -113,11 +113,11 @@ class VoteManager(models.Manager):
 class Vote(models.Model):
     UP = 1
     DOWN = -1
-    VALUE_CHOICES = ((UP, "👍",), (DOWN, "👎",),)
+    VALUE_CHOICES = ((UP, "Up vote",), (DOWN, "Down vote",))
 
     value = models.SmallIntegerField(choices=VALUE_CHOICES, )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, )
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     voted_on = models.DateTimeField(auto_now=True)
 
     objects = VoteManager()
