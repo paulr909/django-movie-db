@@ -98,14 +98,14 @@ class CreateVote(LoginRequiredMixin, CreateView):
         initial['movie'] = self.kwargs['movie_id']
         return initial
 
-    def get_success_url(self):
-        movie_id = self.object.movie.id
-        return reverse('core:movie_detail', kwargs={'pk': movie_id})
-
     def render_to_response(self, context, **response_kwargs):
         movie_id = context['object'].id
         movie_detail_url = reverse('core:movie_detail', kwargs={'pk': movie_id})
         return redirect(to=movie_detail_url)
+
+    def get_success_url(self):
+        movie_id = self.object.movie.id
+        return reverse('core:movie_detail', kwargs={'pk': movie_id})
 
 
 class UpdateVote(LoginRequiredMixin, UpdateView):
@@ -119,11 +119,11 @@ class UpdateVote(LoginRequiredMixin, UpdateView):
             raise PermissionDenied('cannot change another users vote')
         return vote
 
-    def get_success_url(self):
-        movie_id = self.object.movie.id
-        return reverse('core:movie_detail', kwargs={'pk': movie_id})
-
     def render_to_response(self, context, **response_kwargs):
         movie_id = context['object'].id
         movie_detail_url = reverse('core:movie_detail', kwargs={'pk': movie_id})
         return redirect(to=movie_detail_url)
+
+    def get_success_url(self):
+        movie_id = self.object.movie.id
+        return reverse('core:movie_detail', kwargs={'pk': movie_id})
