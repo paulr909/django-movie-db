@@ -27,8 +27,7 @@ class Person(models.Model):
         return '{} {} ({})'.format(self.first_name, self.last_name, self.born)
 
 
-def movie_directory_path_with_uuid(
-        instance, filename):
+def movie_directory_path_with_uuid(instance, filename):
     return '{}/{}.{}'.format(instance.movie_id, uuid4(), filename.split('.')[-1])
 
 
@@ -116,7 +115,7 @@ class VoteManager(models.Manager):
 class Vote(models.Model):
     UP = 1
     DOWN = -1
-    VALUE_CHOICES = ((UP, "Up vote",), (DOWN, "Down vote",))
+    VALUE_CHOICES = ((UP, "Up vote"), (DOWN, "Down vote"))
 
     value = models.SmallIntegerField(choices=VALUE_CHOICES, )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
