@@ -20,7 +20,7 @@ class MovieAdmin(admin.ModelAdmin):
     inlines = [RoleInline, ]
     list_display = ('title', 'year', 'rating')
     list_filter = ('rating',)
-    fields = (('title', 'year',), ('runtime', 'rating'), 'plot', 'director', 'writers', 'website',)
+    fields = (('title', 'year',), ('runtime', 'rating'), 'plot', 'director', 'writers', 'website')
     autocomplete_fields = ('writers', 'director')
     search_fields = ('title',)
 
@@ -34,9 +34,9 @@ class WriterInline(admin.StackedInline):
 
 
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'born', 'died',)
+    list_display = ('name', 'born', 'died')
     inlines = [RoleInline, WriterInline, ]
-    search_fields = ('last_name', 'first_name',)
+    search_fields = ('last_name', 'first_name')
 
     def name(self, obj):
         return "{} {}".format(obj.first_name, obj.last_name)
