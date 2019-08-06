@@ -35,7 +35,7 @@ class WriterInline(admin.StackedInline):
 
 class PersonAdmin(admin.ModelAdmin):
     list_display = ('name', 'born', 'died')
-    inlines = [RoleInline, WriterInline, ]
+    inlines = [RoleInline, WriterInline]
     search_fields = ('last_name', 'first_name')
 
     def name(self, obj):
