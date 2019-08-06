@@ -42,8 +42,5 @@ class PersonAdmin(admin.ModelAdmin):
         return "{} {}".format(obj.first_name, obj.last_name)
 
 
-admin.site.register(Movie, MovieAdmin)
-
 admin.site.register(Person, PersonAdmin)
-
 admin.site.register(MovieImage)
