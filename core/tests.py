@@ -16,38 +16,51 @@ class MovieListPaginationTestCase(TestCase):
 
     def setUp(self):
         for n in range(15):
-            Movie.objects.create(title='Title {}'.format(n), year=1990 + n, runtime=100, )
+            Movie.objects.create(
+                title="Title {}".format(n), year=1990 + n, runtime=100,
+            )
 
     def testFirstPage(self):
-        movie_list_path = reverse('core:movie_list')
+        movie_list_path = reverse("core:movie_list")
         request = RequestFactory().get(path=movie_list_path)
         response = MovieList.as_view()(request)
         self.assertEqual(200, response.status_code)
-        self.assertTrue(response.context_data['page_is_first'])
-        self.assertFalse(response.context_data['page_is_last'])
-        self.assertInHTML(self.ACTIVE_PAGINATION_HTML.format(movie_list_path, 1, 1), response.rendered_content)
+        self.assertTrue(response.context_data["page_is_first"])
+        self.assertFalse(response.context_data["page_is_last"])
+        self.assertInHTML(
+            self.ACTIVE_PAGINATION_HTML.format(movie_list_path, 1, 1),
+            response.rendered_content,
+        )
 
 
 class VoteFormTestCase(TestCase):
-
     def setUp(self):
-        self.correct_user = User.objects.create_user(username='correct', email='correct@mail.com',
-                                                     password='unittest', )
-        self.wrong_user = User.objects.create_user(username='wrong', email='wrong@mail.com', password='unittest', )
-        self.movie = Movie.objects.create(title='Title {}'.format(1), year=1990, runtime=100, )
+        self.correct_user = User.objects.create_user(
+            username="correct", email="correct@mail.com", password="unittest",
+        )
+        self.wrong_user = User.objects.create_user(
+            username="wrong", email="wrong@mail.com", password="unittest",
+        )
+        self.movie = Movie.objects.create(
+            title="Title {}".format(1), year=1990, runtime=100,
+        )
 
     def testUserManipulationOnCreateFails(self):
         self.assertEqual(0, Vote.objects.filter(user=self.correct_user).count())
         self.assertEqual(0, Vote.objects.filter(user=self.wrong_user).count())
-        form = VoteForm(initial={'user': self.correct_user},
-                        data={'user': self.wrong_user.id, 'movie': self.movie.id, 'value': Vote.UP})
+        form = VoteForm(
+            initial={"user": self.correct_user},
+            data={"user": self.wrong_user.id, "movie": self.movie.id, "value": Vote.UP},
+        )
         self.assertFalse(form.is_valid())
 
     def testVoteCreatedWithGoodData(self):
         self.assertEqual(0, Vote.objects.filter(user=self.correct_user).count())
         self.assertEqual(0, Vote.objects.filter(user=self.wrong_user).count())
         form = VoteForm(
-            initial={'user': self.correct_user.id, 'movie': self.movie.id, }, data={'value': Vote.UP})
+            initial={"user": self.correct_user.id, "movie": self.movie.id,},
+            data={"value": Vote.UP},
+        )
         self.assertTrue(form.is_valid(), form.errors)
         form.save()
         self.assertEqual(1, Vote.objects.filter(user=self.correct_user).count())
@@ -55,14 +68,19 @@ class VoteFormTestCase(TestCase):
 
 
 class CreateVoteViewTestCase(TestCase):
-
     def test_POST_request(self):
         initial_vote_count = Vote.objects.count()
-        movie = Movie.objects.create(title='Title {}'.format(1), year=1990, runtime=100, )
-        self.user = User.objects.create_user(username='correct', email='correct@mail.com', password='unittest', )
+        movie = Movie.objects.create(
+            title="Title {}".format(1), year=1990, runtime=100,
+        )
+        self.user = User.objects.create_user(
+            username="correct", email="correct@mail.com", password="unittest",
+        )
 
         request = RequestFactory().post(
-            reverse('core:create_vote', kwargs={'movie_id': movie.id}), data={'movie': movie.id, 'value': Vote.UP, }, )
+            reverse("core:create_vote", kwargs={"movie_id": movie.id}),
+            data={"movie": movie.id, "value": Vote.UP,},
+        )
         request.user = self.user
         view = CreateVote.as_view()
         response = view(request, movie_id=movie.id)

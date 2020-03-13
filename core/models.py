@@ -7,7 +7,7 @@ from django.db.models.aggregates import Sum
 class PersonManager(models.Manager):
     def all_with_prefetch_movies(self):
         qs = self.get_queryset()
-        return qs.prefetch_related('directed', 'writing_credits', 'role_set__movie')
+        return qs.prefetch_related("directed", "writing_credits", "role_set__movie")
 
 
 class Person(models.Model):
@@ -19,22 +19,24 @@ class Person(models.Model):
     objects = PersonManager()
 
     class Meta:
-        ordering = ('first_name', 'last_name')
+        ordering = ("first_name", "last_name")
 
     def __str__(self):
         if self.died:
-            return '{} {} ({}-{})'.format(self.first_name, self.last_name, self.born, self.died)
-        return '{} {} ({})'.format(self.first_name, self.last_name, self.born)
+            return "{} {} ({}-{})".format(
+                self.first_name, self.last_name, self.born, self.died
+            )
+        return "{} {} ({})".format(self.first_name, self.last_name, self.born)
 
 
 def movie_directory_path_with_uuid(instance, filename):
-    return '{}/{}.{}'.format(instance.movie_id, uuid4(), filename.split('.')[-1])
+    return "{}/{}.{}".format(instance.movie_id, uuid4(), filename.split(".")[-1])
 
 
 class MovieImage(models.Model):
     image = models.ImageField(upload_to=movie_directory_path_with_uuid)
     uploaded = models.DateTimeField(auto_now_add=True)
-    movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
+    movie = models.ForeignKey("Movie", on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -42,23 +44,22 @@ class MovieImage(models.Model):
 
 
 class MovieManager(models.Manager):
-
     def all_with_related_persons(self):
         qs = self.get_queryset()
-        qs = qs.select_related('director')
-        qs = qs.prefetch_related('writers', 'actors')
+        qs = qs.select_related("director")
+        qs = qs.prefetch_related("writers", "actors")
         return qs
 
     def all_with_related_persons_and_score(self):
         qs = self.all_with_related_persons()
-        qs = qs.annotate(score=Sum('vote__value'))
+        qs = qs.annotate(score=Sum("vote__value"))
         return qs
 
     def top_movies(self, limit=10):
         qs = self.get_queryset()
-        qs = qs.annotate(vote_sum=Sum('vote__value'))
+        qs = qs.annotate(vote_sum=Sum("vote__value"))
         qs = qs.exclude(vote_sum=None)
-        qs = qs.order_by('-vote_sum')
+        qs = qs.order_by("-vote_sum")
         qs = qs[:limit]
         return qs
 
@@ -69,9 +70,11 @@ class Movie(models.Model):
     RATED_PG = 2
     RATED_R = 3
     RATINGS = (
-        (NOT_RATED, 'NR - Not Rated'),
-        (RATED_G, 'G - General Audiences'), (RATED_PG, 'PG - Parental Guidance ' 'Suggested'),
-        (RATED_R, 'R - Restricted'))
+        (NOT_RATED, "NR - Not Rated"),
+        (RATED_G, "G - General Audiences"),
+        (RATED_PG, "PG - Parental Guidance " "Suggested"),
+        (RATED_R, "R - Restricted"),
+    )
 
     title = models.CharField(max_length=140)
     plot = models.TextField()
@@ -79,17 +82,27 @@ class Movie(models.Model):
     rating = models.IntegerField(choices=RATINGS, default=NOT_RATED)
     runtime = models.PositiveIntegerField()
     website = models.URLField(blank=True)
-    director = models.ForeignKey(to='Person', null=True, on_delete=models.SET_NULL, related_name='directed', blank=True)
-    writers = models.ManyToManyField(to='Person', related_name='writing_credits', blank=True)
-    actors = models.ManyToManyField(to='Person', through='Role', related_name='acting_credits', blank=True)
+    director = models.ForeignKey(
+        to="Person",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="directed",
+        blank=True,
+    )
+    writers = models.ManyToManyField(
+        to="Person", related_name="writing_credits", blank=True
+    )
+    actors = models.ManyToManyField(
+        to="Person", through="Role", related_name="acting_credits", blank=True
+    )
 
     objects = MovieManager()
 
     class Meta:
-        ordering = ('-year', 'title')
+        ordering = ("-year", "title")
 
     def __str__(self):
-        return '{} ({})'.format(self.title, self.year)
+        return "{} ({})".format(self.title, self.year)
 
 
 class Role(models.Model):
@@ -101,7 +114,7 @@ class Role(models.Model):
         return "{} {} {}".format(self.movie_id, self.person_id, self.name)
 
     class Meta:
-        unique_together = ('movie', 'person', 'name')
+        unique_together = ("movie", "person", "name")
 
 
 class VoteManager(models.Manager):
@@ -117,7 +130,7 @@ class Vote(models.Model):
     DOWN = -1
     VALUE_CHOICES = ((UP, "Up vote"), (DOWN, "Down vote"))
 
-    value = models.SmallIntegerField(choices=VALUE_CHOICES, )
+    value = models.SmallIntegerField(choices=VALUE_CHOICES,)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     voted_on = models.DateTimeField(auto_now=True)
@@ -125,4 +138,4 @@ class Vote(models.Model):
     objects = VoteManager()
 
     class Meta:
-        unique_together = ('user', 'movie')
+        unique_together = ("user", "movie")

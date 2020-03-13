@@ -31,14 +31,16 @@
             </ul>
         </div>
         <div class="col-md-3">
-            This movie is rated: <span class="badge badge-primary">{{ object.get_rating_display }}</span>
+            This movie is rated: <span
+                class="badge badge-primary">{{ object.get_rating_display }}</span>
             <h2>
                 Score: {{ object.score|default_if_none:"TBD" }}
             </h2>
             {% if image_form %}
                 <h2>Upload New Image</h2>
                 <form method="post" enctype="multipart/form-data"
-                      action="{% url 'core:movie_image_upload' movie_id=object.id %}" novalidate>
+                      action="{% url 'core:movie_image_upload' movie_id=object.id %}"
+                      novalidate>
                     {% csrf_token %}
                     {{ image_form|crispy }}
                     <p>

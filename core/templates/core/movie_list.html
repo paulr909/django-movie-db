@@ -20,7 +20,8 @@
                 <nav>
                     <ul class="pagination pagination-sm">
                         <li class="page-item">
-                            <a href="{% url 'core:movie_list' %}?page=1" class="page-link">First</a>
+                            <a href="{% url 'core:movie_list' %}?page=1"
+                               class="page-link">First</a>
                         </li>
                         {% if page_obj.has_previous %}
                             <li class="page-item">
@@ -39,7 +40,8 @@
                             </li>
                         {% endif %}
                         <li class="page-item">
-                            <a href="{% url 'core:movie_list' %}?page=last" class="page-link">Last</a>
+                            <a href="{% url 'core:movie_list' %}?page=last"
+                               class="page-link">Last</a>
                         </li>
                     </ul>
                 </nav>
