@@ -6,10 +6,15 @@
 
 {% block main %}
     <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center mb-5">All Movies</h1>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-4 offset-md-4">
             <ul>
                 {% for movie in object_list %}
-                    <li>
+                    <li class="mb-3">
                         <a href="{% url 'core:movie_detail' pk=movie.id %}">
                             {{ movie }}
                         </a>
@@ -17,7 +22,7 @@
                 {% endfor %}
             </ul>
             {% if is_paginated %}
-                <nav>
+                <nav class="mt-4 ml-4">
                     <ul class="pagination pagination-sm">
                         <li class="page-item">
                             <a href="{% url 'core:movie_list' %}?page=1"

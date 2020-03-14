@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from core.forms import VoteForm, MovieImageForm
 from core.mixins import CachePageVaryOnCookieMixin
-from core.models import Movie, Person, Vote
+from core.models import Movie, Person, Vote, MovieImage
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +62,14 @@ class MovieDetail(DetailView):
 
 class TopMovies(ListView):
     template_name = "core/top_movies_list.html"
+    model = MovieImage
+
+    def get_queryset(self):
+        return MovieImage.objects.all()[:8]
+
+
+class TopRatedMovies(ListView):
+    template_name = "core/top_rated_list.html"
 
     def get_queryset(self):
         limit = 10

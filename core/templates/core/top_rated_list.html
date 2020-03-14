@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load cache %}
+
+{% block title %}
+    Top Rated Movies
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center mb-5">Top Rated Movies</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            {% cache 300 top10 %}
+                <ol>
+                    {% for movie in object_list %}
+                        <li class="mb-3">
+                            <a href="{% url "core:movie_detail" pk=movie.id %}">
+                                {{ movie }}</a>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endcache %}
+        </div>
+    </div>
+{% endblock %}

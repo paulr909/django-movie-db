@@ -1,25 +1,29 @@
 {% extends "base.html" %}
-{% load cache %}
 
 {% block title %}
-    Top 10 Movies
+    Top Movies
 {% endblock %}
 
 {% block main %}
     <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <h1>Top 10 Movies</h1>
-            {% cache 300 top10 %}
-                <ol>
-                    {% for movie in object_list %}
-                        <li>
-                            <a href="{% url "core:movie_detail" pk=movie.id %}">
-                                {{ movie }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ol>
-            {% endcache %}
+        <div class="col-md-12">
+            <h1 class="text-center mb-5">Top Movies</h1>
         </div>
+    </div>
+    <div class="row">
+        {% for m in object_list %}
+            <div class="col-md-3">
+                <div class="card mb-5">
+                    <img src="{{ m.image.url }}"
+                         class="card-img-top movie-image-thumb"
+                         alt="{{ m.movie }}">
+                    <div class="card-body text-center">
+                        <a href="{% url "core:movie_detail" m.movie_id %}"
+                           class="btn btn-outline-primary brn-sm">
+                            {{ m.movie }}</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

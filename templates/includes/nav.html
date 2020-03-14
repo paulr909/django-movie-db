@@ -8,8 +8,10 @@
     </button>
     <div class="collapse navbar-collapse" id="movie-db">
         <ul class="navbar-nav mr-auto">
-            <li><a class="nav-link" href="{% url 'core:movie_list' %}">Movies</a></li>
-            <li><a class="nav-link" href="{% url 'core:top_movies' %}">Top 10 Movies</a>
+            <li><a class="nav-link" href="{% url 'core:top_movies' %}">Top Movies</a>
+            </li>
+            <li><a class="nav-link" href="{% url 'core:top_rated' %}">Top Rated
+                Movies</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">

@@ -6,6 +6,7 @@ app_name = "core"
 urlpatterns = [
     path("movies", views.MovieList.as_view(), name="movie_list"),
     path("movies/top", views.TopMovies.as_view(), name="top_movies"),
+    path("movies/rated", views.TopRatedMovies.as_view(), name="top_rated"),
     path("movie/<int:pk>", views.MovieDetail.as_view(), name="movie_detail"),
     path("movie/<int:movie_id>/vote", views.CreateVote.as_view(), name="create_vote"),
     path(

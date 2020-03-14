@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import Movie, Person, Role, MovieImage
+from core.models import Movie, Person, Role
 
 
 class DirectorInline(admin.StackedInline):
@@ -53,5 +53,4 @@ class PersonAdmin(admin.ModelAdmin):
 
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Person, PersonAdmin)
-admin.site.register(MovieImage)
 admin.site.site_url = "/movies"
