@@ -54,3 +54,4 @@ class PersonAdmin(admin.ModelAdmin):
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(MovieImage)
+admin.site.site_url = "/movies"
