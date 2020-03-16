@@ -25,7 +25,7 @@
             <ul class="movie-image list-inline">
                 {% for i in object.movieimage_set.all %}
                     <li class="list-inline-item mb-3">
-                        <img src="{{ i.image.url }}" alt="">
+                        <img src="{{ i.image.url }}" alt="{{ i.movie }}">
                     </li>
                 {% endfor %}
             </ul>
