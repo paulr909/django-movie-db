@@ -17,7 +17,7 @@
                     {% for movie in object_list %}
                         <li class="mb-3">
                             <a href="{% url "core:movie_detail" pk=movie.id %}">
-                                {{ movie }}</a>
+                                {{ movie.title }}</a>
                         </li>
                     {% endfor %}
                 </ol>

@@ -17,10 +17,9 @@
                     <li class="mb-3">
                         <a href="{% url 'core:movie_detail' pk=movie.id %}"
                            class="btn btn-outline-primary">
-                            {{ movie }}
+                            {{ movie.title }}
                         </a>
                         <p class="mt-3">{{ movie.plot }}</p>
-                        <p>Rating: {{ movie.rating }}</p>
                     </li>
                 {% endfor %}
             </ul>
