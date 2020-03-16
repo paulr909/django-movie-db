@@ -19,7 +19,7 @@ class PersonDetail(DetailView):
 
 class MovieList(CachePageVaryOnCookieMixin, ListView):
     model = Movie
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         ctx = super(MovieList, self).get_context_data(**kwargs)
