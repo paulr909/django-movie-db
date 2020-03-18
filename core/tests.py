@@ -20,7 +20,7 @@ class MovieListPaginationTestCase(TestCase):
                 title="Title {}".format(n), year=1990 + n, runtime=100,
             )
 
-    def testFirstPage(self):
+    def test_first_page(self):
         movie_list_path = reverse("core:movie_list")
         request = RequestFactory().get(path=movie_list_path)
         response = MovieList.as_view()(request)
@@ -45,7 +45,7 @@ class VoteFormTestCase(TestCase):
             title="Title {}".format(1), year=1990, runtime=100,
         )
 
-    def testUserManipulationOnCreateFails(self):
+    def test_user_manipulation_on_create_fails(self):
         self.assertEqual(0, Vote.objects.filter(user=self.correct_user).count())
         self.assertEqual(0, Vote.objects.filter(user=self.wrong_user).count())
         form = VoteForm(
@@ -54,7 +54,7 @@ class VoteFormTestCase(TestCase):
         )
         self.assertFalse(form.is_valid())
 
-    def testVoteCreatedWithGoodData(self):
+    def test_vote_created_with_valid_data(self):
         self.assertEqual(0, Vote.objects.filter(user=self.correct_user).count())
         self.assertEqual(0, Vote.objects.filter(user=self.wrong_user).count())
         form = VoteForm(
@@ -68,7 +68,7 @@ class VoteFormTestCase(TestCase):
 
 
 class CreateVoteViewTestCase(TestCase):
-    def test_POST_request(self):
+    def test_post_request(self):
         initial_vote_count = Vote.objects.count()
         movie = Movie.objects.create(
             title="Title {}".format(1), year=1990, runtime=100,
