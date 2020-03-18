@@ -23,14 +23,12 @@ class Person(models.Model):
 
     def __str__(self):
         if self.died:
-            return "{} {} ({}-{})".format(
-                self.first_name, self.last_name, self.born, self.died
-            )
-        return "{} {} ({})".format(self.first_name, self.last_name, self.born)
+            return f"{self.first_name} {self.last_name} ({self.born}-{self.died})"
+        return f"{self.first_name} {self.last_name} ({self.born})"
 
 
 def movie_directory_path_with_uuid(instance, filename):
-    return "{}/{}.{}".format(instance.movie_id, uuid4(), filename.split(".")[-1])
+    return f"{instance.movie_id}/{uuid4()}.{filename.split('.')[-1]}"
 
 
 class MovieImage(models.Model):
@@ -102,7 +100,7 @@ class Movie(models.Model):
         ordering = ("-year", "title")
 
     def __str__(self):
-        return "{} ({})".format(self.title, self.year)
+        return f"{self.title} ({self.year})"
 
 
 class Role(models.Model):
@@ -111,7 +109,7 @@ class Role(models.Model):
     name = models.CharField(max_length=140)
 
     def __str__(self):
-        return "{} {} {}".format(self.movie_id, self.person_id, self.name)
+        return f"{self.movie_id} {self.person_id} {self.name}"
 
     class Meta:
         unique_together = ("movie", "person", "name")

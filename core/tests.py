@@ -58,7 +58,7 @@ class VoteFormTestCase(TestCase):
         self.assertEqual(0, Vote.objects.filter(user=self.correct_user).count())
         self.assertEqual(0, Vote.objects.filter(user=self.wrong_user).count())
         form = VoteForm(
-            initial={"user": self.correct_user.id, "movie": self.movie.id,},
+            initial={"user": self.correct_user.id, "movie": self.movie.id},
             data={"value": Vote.UP},
         )
         self.assertTrue(form.is_valid(), form.errors)
@@ -79,7 +79,7 @@ class CreateVoteViewTestCase(TestCase):
 
         request = RequestFactory().post(
             reverse("core:create_vote", kwargs={"movie_id": movie.id}),
-            data={"movie": movie.id, "value": Vote.UP,},
+            data={"movie": movie.id, "value": Vote.UP},
         )
         request.user = self.user
         view = CreateVote.as_view()
