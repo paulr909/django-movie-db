@@ -23,5 +23,8 @@ class CachePageVaryOnCookieMixin:
     def as_view(cls, *args, **kwargs):
         view = super().as_view(*args, **kwargs)
         view = vary_on_cookie(view)
-        view = cache_page(timeout=cls.get_timeout(), cache=cls.cache_name,)(view)
+        view = cache_page(
+            timeout=cls.get_timeout(),
+            cache=cls.cache_name,
+        )(view)
         return view

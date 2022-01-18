@@ -1,4 +1,5 @@
 from uuid import uuid4
+
 from django.conf import settings
 from django.db import models
 from django.db.models.aggregates import Sum
@@ -128,7 +129,9 @@ class Vote(models.Model):
     DOWN = -1
     VALUE_CHOICES = ((UP, "Up vote"), (DOWN, "Down vote"))
 
-    value = models.SmallIntegerField(choices=VALUE_CHOICES,)
+    value = models.SmallIntegerField(
+        choices=VALUE_CHOICES,
+    )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     voted_on = models.DateTimeField(auto_now=True)

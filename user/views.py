@@ -4,6 +4,6 @@ from django.views.generic import CreateView
 
 
 class RegisterView(CreateView):
-    template_name = 'user/register.html'
+    template_name = "user/register.html"
     form_class = UserCreationForm
-    success_url = reverse_lazy('core:movie_list')
+    success_url = reverse_lazy("core:movie_list")

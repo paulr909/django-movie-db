@@ -2,9 +2,10 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.urls.base import reverse
+
 from core.forms import VoteForm
 from core.models import Movie, Vote
-from core.views import MovieList, CreateVote
+from core.views import CreateVote, MovieList
 
 
 class MovieListPaginationTestCase(TestCase):
@@ -17,7 +18,9 @@ class MovieListPaginationTestCase(TestCase):
     def setUp(self):
         for n in range(15):
             Movie.objects.create(
-                title="Title {}".format(n), year=1990 + n, runtime=100,
+                title="Title {}".format(n),
+                year=1990 + n,
+                runtime=100,
             )
 
     def test_first_page(self):
@@ -36,13 +39,19 @@ class MovieListPaginationTestCase(TestCase):
 class VoteFormTestCase(TestCase):
     def setUp(self):
         self.correct_user = User.objects.create_user(
-            username="correct", email="correct@mail.com", password="unittest",
+            username="correct",
+            email="correct@mail.com",
+            password="unittest",
         )
         self.wrong_user = User.objects.create_user(
-            username="wrong", email="wrong@mail.com", password="unittest",
+            username="wrong",
+            email="wrong@mail.com",
+            password="unittest",
         )
         self.movie = Movie.objects.create(
-            title="Title {}".format(1), year=1990, runtime=100,
+            title="Title {}".format(1),
+            year=1990,
+            runtime=100,
         )
 
     def test_user_manipulation_on_create_fails(self):
@@ -71,10 +80,14 @@ class CreateVoteViewTestCase(TestCase):
     def test_post_request(self):
         initial_vote_count = Vote.objects.count()
         movie = Movie.objects.create(
-            title="Title {}".format(1), year=1990, runtime=100,
+            title="Title {}".format(1),
+            year=1990,
+            runtime=100,
         )
         self.user = User.objects.create_user(
-            username="correct", email="correct@mail.com", password="unittest",
+            username="correct",
+            email="correct@mail.com",
+            password="unittest",
         )
 
         request = RequestFactory().post(

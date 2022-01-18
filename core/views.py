@@ -1,14 +1,16 @@
 import logging
+
 import django
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, UpdateView, CreateView
-from core.forms import VoteForm, MovieImageForm
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
+
+from core.forms import MovieImageForm, VoteForm
 from core.mixins import CachePageVaryOnCookieMixin
-from core.models import Movie, Person, Vote, MovieImage
+from core.models import Movie, MovieImage, Person, Vote
 
 logger = logging.getLogger(__name__)
 

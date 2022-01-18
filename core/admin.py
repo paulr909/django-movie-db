@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from core.models import Movie, Person, Role
 
 
@@ -23,7 +24,10 @@ class MovieAdmin(admin.ModelAdmin):
     list_display = ("title", "year", "rating")
     list_filter = ("rating",)
     fields = (
-        ("title", "year",),
+        (
+            "title",
+            "year",
+        ),
         ("runtime", "rating"),
         "plot",
         "director",
